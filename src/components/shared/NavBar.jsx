@@ -19,6 +19,7 @@ const NavBar = () => {
     const { data: session } = authClient.useSession();
     const router = useRouter();
     const user = session?.user;
+    // console.log("user", user);
 
     const handleSignIn = () => {
         router.push('/login');
@@ -51,7 +52,7 @@ const NavBar = () => {
         <div className="relative w-full bg-dll-surface text-dll-text shadow-md z-50 sticky top-0 backdrop-blur-md">
             <nav className="relative container mx-auto py-4 px-6 flex items-center justify-between gap-3">
                 <Link href="/" className="logo">
-                    <Image src={Logo} alt="Digital Life Lessons" width={140} height={40} priority ></Image>
+                    <Image src={Logo} alt="Digital Life Lessons" width={140} height={40} priority></Image>
                 </Link>
                 <div className={`z-[60] navitems absolute left-1/2 top-full w-screen -translate-x-1/2 flex flex-col items-start gap-3 bg-dll-surface px-6 py-4 shadow-lg transition-all duration-300 ease-in-out lg:static lg:w-auto lg:translate-x-0 lg:flex-row lg:items-center lg:gap-6 lg:bg-transparent lg:p-0 lg:shadow-none ${open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0 lg:visible lg:translate-y-0 lg:opacity-100"}`}>
                     {navItems.map((navItem, ind) => (
@@ -61,7 +62,7 @@ const NavBar = () => {
                     ))}
                     {user?.isPremium &&
                         <span className="flex items-center gap-1 text-xs font-semibold text-dll-accent">
-                            <HiSparkles ></HiSparkles> Premium
+                            <HiSparkles></HiSparkles> Premium
                         </span>
                     }
                 </div>

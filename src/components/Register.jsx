@@ -34,6 +34,7 @@ const Register = () => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const { name, email, photoURL, password } = Object.fromEntries(formData.entries());
+        console.log("registering user:", email);
 
         setIsSubmitting(true);
         const { error } = await authClient.signUp.email({
@@ -87,30 +88,30 @@ const Register = () => {
                             onPress={handleGoogleSignIn}
                             className="w-full flex items-center justify-center gap-3 rounded-xl border border-dll-border py-3 mb-6 text-sm font-medium text-dll-text hover:bg-dll-surface-alt"
                         >
-                            <FcGoogle size={18} ></FcGoogle> Continue with Google
+                            <FcGoogle size={18}></FcGoogle> Continue with Google
                         </Button>
 
                         <div className="flex items-center gap-4 mb-6">
-                            <Separator className="flex-1" ></Separator>
+                            <Separator className="flex-1"></Separator>
                             <span className="text-xs text-dll-muted uppercase tracking-wide">or</span>
-                            <Separator className="flex-1" ></Separator>
+                            <Separator className="flex-1"></Separator>
                         </div>
 
                         <Form className="flex flex-col gap-5" onSubmit={onSubmit}>
                             <TextField isRequired name="name" type="text">
                                 <Label className="text-sm font-medium text-dll-text">Full name</Label>
                                 <div className="relative">
-                                    <HiOutlineUser className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none" ></HiOutlineUser>
-                                    <Input placeholder="Jane Doe" className="rounded-xl border border-dll-border bg-transparent pl-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent" ></Input>
+                                    <HiOutlineUser className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none"></HiOutlineUser>
+                                    <Input placeholder="Jane Doe" className="rounded-xl border border-dll-border bg-transparent pl-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent"></Input>
                                 </div>
-                                <FieldError className="text-xs text-dll-error" ></FieldError>
+                                <FieldError className="text-xs text-dll-error"></FieldError>
                             </TextField>
 
                             <TextField name="photoURL" type="text">
                                 <Label className="text-sm font-medium text-dll-text">Photo URL <span className="text-dll-muted font-normal">(optional)</span></Label>
                                 <div className="relative">
-                                    <HiOutlinePhotograph className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none" ></HiOutlinePhotograph>
-                                    <Input placeholder="https://..." className="rounded-xl border border-dll-border bg-transparent pl-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent" ></Input>
+                                    <HiOutlinePhotograph className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none"></HiOutlinePhotograph>
+                                    <Input placeholder="https://..." className="rounded-xl border border-dll-border bg-transparent pl-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent"></Input>
                                 </div>
                             </TextField>
 
@@ -127,10 +128,10 @@ const Register = () => {
                             >
                                 <Label className="text-sm font-medium text-dll-text">Email address</Label>
                                 <div className="relative">
-                                    <HiOutlineMail className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none" ></HiOutlineMail>
-                                    <Input placeholder="you@example.com" className="rounded-xl border border-dll-border bg-transparent pl-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent" ></Input>
+                                    <HiOutlineMail className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none"></HiOutlineMail>
+                                    <Input placeholder="you@example.com" className="rounded-xl border border-dll-border bg-transparent pl-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent"></Input>
                                 </div>
-                                <FieldError className="text-xs text-dll-error" ></FieldError>
+                                <FieldError className="text-xs text-dll-error"></FieldError>
                             </TextField>
 
                             <TextField
@@ -141,18 +142,18 @@ const Register = () => {
                             >
                                 <Label className="text-sm font-medium text-dll-text">Password</Label>
                                 <div className="relative">
-                                    <CiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none" ></CiLock>
-                                    <Input placeholder="Create a password" className="rounded-xl border border-dll-border bg-transparent pl-11 pr-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent" ></Input>
+                                    <CiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none"></CiLock>
+                                    <Input placeholder="Create a password" className="rounded-xl border border-dll-border bg-transparent pl-11 pr-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent"></Input>
                                     <Button
                                         isIconOnly
                                         aria-label={isVisible ? "Hide password" : "Show password"}
                                         onPress={() => setIsVisible(!isVisible)}
                                         className="absolute right-2 top-1/2 -translate-y-1/2 text-dll-muted"
                                     >
-                                        {isVisible ? <FaEye size={16} ></FaEye> : <IoMdEyeOff size={16} ></IoMdEyeOff>}
+                                        {isVisible ? <FaEye size={16}></FaEye> : <IoMdEyeOff size={16}></IoMdEyeOff>}
                                     </Button>
                                 </div>
-                                <FieldError className="text-xs text-dll-error" ></FieldError>
+                                <FieldError className="text-xs text-dll-error"></FieldError>
                                 <p className="text-xs text-dll-muted">At least 6 characters, with an uppercase and a lowercase letter.</p>
                             </TextField>
 

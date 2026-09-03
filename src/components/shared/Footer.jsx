@@ -16,16 +16,16 @@ const Footer = () => {
                         </p>
                         <div className="socialIcons flex gap-3 mt-4">
                             <Link href="https://x.com/" target="_blank" className="text-dll-text hover:text-dll-primary w-9 h-9 border border-dll-border flex items-center justify-center rounded-full">
-                                <FaXTwitter size={14} ></FaXTwitter>
+                                <FaXTwitter size={14}></FaXTwitter>
                             </Link>
                             <Link href="https://www.facebook.com/" target="_blank" className="text-dll-text hover:text-dll-primary w-9 h-9 border border-dll-border flex items-center justify-center rounded-full">
-                                <FaFacebook size={14} ></FaFacebook>
+                                <FaFacebook size={14}></FaFacebook>
                             </Link>
                             <Link href="https://www.linkedin.com/" target="_blank" className="text-dll-text hover:text-dll-primary w-9 h-9 border border-dll-border flex items-center justify-center rounded-full">
-                                <FaLinkedin size={14} ></FaLinkedin>
+                                <FaLinkedin size={14}></FaLinkedin>
                             </Link>
                             <Link href="https://www.instagram.com/" target="_blank" className="text-dll-text hover:text-dll-primary w-9 h-9 border border-dll-border flex items-center justify-center rounded-full">
-                                <FaInstagram size={14} ></FaInstagram>
+                                <FaInstagram size={14}></FaInstagram>
                             </Link>
                         </div>
                     </div>
@@ -49,13 +49,13 @@ const Footer = () => {
 
                     <div className="lg:col-span-1 space-y-2">
                         <h3 className="text-dll-heading font-semibold text-sm">Contact</h3>
-                        <p className="flex items-center gap-2 text-sm text-dll-muted"><FaEnvelope ></FaEnvelope> support@ledgerly.app</p>
-                        <p className="flex items-center gap-2 text-sm text-dll-muted"><FaMapMarkerAlt ></FaMapMarkerAlt> Dhaka, Bangladesh</p>
+                        <p className="flex items-center gap-2 text-sm text-dll-muted"><FaEnvelope></FaEnvelope> support@ledgerly.app</p>
+                        <p className="flex items-center gap-2 text-sm text-dll-muted"><FaMapMarkerAlt></FaMapMarkerAlt> Dhaka, Bangladesh</p>
                     </div>
                 </div>
                 <div className="footerCopyRight text-dll-muted text-sm w-full flex flex-col sm:flex-row justify-between items-center gap-3 border-t border-dll-border pt-4">
                     <p>&copy; 2026 Digital Life Lessons. All rights reserved.</p>
-                    <p className="flex items-center gap-2">Made with <FaHeart className="text-dll-error" ></FaHeart> one lesson at a time.</p>
+                    <p className="flex items-center gap-2">Made with <FaHeart className="text-dll-error"></FaHeart> one lesson at a time.</p>
                 </div>
             </footer>
         </div>

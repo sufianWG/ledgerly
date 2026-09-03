@@ -3,24 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FiSearch, FiHome } from "react-icons/fi";
+
+import { FiHome } from "react-icons/fi";
 import Logo from "@/assets/ledgerly-wt.png";
 
 const NotFound = () => {
-    const [query, setQuery] = useState("");
-    const router = useRouter();
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        router.push(`/public-lessons?search=${encodeURIComponent(query)}`);
-    };
-
+    
     return (
         <div className="min-h-screen flex flex-col bg-dll-background">
             <div className="px-6 lg:px-10 py-7">
                 <Link href="/" className="inline-flex items-center gap-2.5">
-                    <Image src={Logo} alt="Digital Life Lessons" width={130} height={36} ></Image>
+                    <Image src={Logo} alt="Digital Life Lessons" width={130} height={36}></Image>
                 </Link>
             </div>
 
@@ -35,22 +29,11 @@ const NotFound = () => {
                         The lesson you&apos;re looking for may have been moved, renamed, or perhaps it was never written at all.
                     </p>
 
-                    <form onSubmit={handleSearch} className="relative max-w-md mx-auto mb-8">
-                        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted" size={16} ></FiSearch>
-                        <input
-                            type="text"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Search for a lesson instead..."
-                            className="w-full pl-11 pr-4 py-2.5 rounded-full border border-dll-border bg-transparent text-dll-text text-sm focus:outline-none focus:border-dll-accent"
-                        />
-                    </form>
-
                     <Link
                         href="/"
                         className="inline-flex items-center gap-2 bg-dll-accent text-white px-7 py-3 rounded-full font-semibold text-sm hover:opacity-90 transition"
                     >
-                        <FiHome size={16} ></FiHome> Back to Home
+                        <FiHome size={16}></FiHome> Back to Home
                     </Link>
                 </div>
             </main>
