@@ -1,26 +1,95 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #14b8a6;
+  --primary-hover: #0f766e;
+
+  --secondary: #172033;
+  --accent: #eab308;
+
+  --background: #f8faf9;
+  --surface: #ffffff;
+  --surface-alt: #f1f6f5;
+  --surface-elevated: #ffffff;
+
+  --heading: #172033;
+  --text: #334155;
+  --muted: #64748b;
+
+  --border: #dce5e3;
+
+  --success: #15803d;
+  --success-bg: #dcfce7;
+
+  --warning: #b45309;
+  --warning-bg: #fef3c7;
+
+  --error: #b91c1c;
+  --error-bg: #fee2e2;
+}
+
+.dark {
+  --primary: #2dd4bf;
+  --primary-hover: #14b8a6;
+
+  --secondary: #f8fafc;
+  --accent: #fbbf24;
+
+  --background: #0b1220;
+  --surface: #111c2d;
+  --surface-alt: #162438;
+  --surface-elevated: #1a293c;
+
+  --heading: #f8fafc;
+  --text: #d7e0ea;
+  --muted: #94a3b8;
+
+  --border: #283649;
+
+  --success: #86efac;
+  --success-bg: #0f2f1f;
+
+  --warning: #fcd34d;
+  --warning-bg: #3a2b0d;
+
+  --error: #fca5a5;
+  --error-bg: #3b1717;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-fraunces);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-dll-primary: var(--primary);
+  --color-dll-primary-hover: var(--primary-hover);
+
+  --color-dll-secondary: var(--secondary);
+  --color-dll-accent: var(--accent);
+
+  --color-dll-background: var(--background);
+
+  --color-dll-surface: var(--surface);
+  --color-dll-surface-alt: var(--surface-alt);
+  --color-dll-surface-elevated: var(--surface-elevated);
+
+  --color-dll-heading: var(--heading);
+  --color-dll-text: var(--text);
+  --color-dll-muted: var(--muted);
+
+  --color-dll-border: var(--border);
+
+  --color-dll-success: var(--success);
+  --color-dll-success-bg: var(--success-bg);
+
+  --color-dll-warning: var(--warning);
+  --color-dll-warning-bg: var(--warning-bg);
+
+  --color-dll-error: var(--error);
+  --color-dll-error-bg: var(--error-bg);
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
 }
