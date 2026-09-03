@@ -2,34 +2,8 @@
 @import "@heroui/styles";
 
 :root {
-  --primary: #14b8a6;
-  --primary-hover: #0f766e;
+  color-scheme: dark;
 
-  --secondary: #172033;
-  --accent: #eab308;
-
-  --background: #f8faf9;
-  --surface: #ffffff;
-  --surface-alt: #f1f6f5;
-  --surface-elevated: #ffffff;
-
-  --heading: #172033;
-  --text: #334155;
-  --muted: #64748b;
-
-  --border: #dce5e3;
-
-  --success: #15803d;
-  --success-bg: #dcfce7;
-
-  --warning: #b45309;
-  --warning-bg: #fef3c7;
-
-  --error: #b91c1c;
-  --error-bg: #fee2e2;
-}
-
-.dark {
   --primary: #2dd4bf;
   --primary-hover: #14b8a6;
 

@@ -2,27 +2,21 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTheme } from 'next-themes';
 import { Avatar } from '@heroui/react';
 import { FaBars, FaXmark } from 'react-icons/fa6';
-import { RxAvatar } from 'react-icons/rx';
 import { HiSparkles } from 'react-icons/hi2';
-import Logo from '@/assets/ledgerly-wt.png';
-import LightLogo from '@/assets/ledgerly-wt-light.png';
+import Logo from '@/assets/ledgerly-wt-light.png';
 import NavLink from './NavLink';
 import AvatarMenu from './AvatarMenu';
-import { ThemeSwitcher } from './ThemeSwitcher';
 import { authClient } from '@/lib/auth-client';
 import { showToast } from '@/lib/toast';
 
 const NavBar = () => {
     const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
-    const [mounted, setMounted] = useState(false);
     const [open, setOpen] = useState(false);
     const { data: session } = authClient.useSession();
-    const { resolvedTheme } = useTheme();
     const router = useRouter();
     const user = session?.user;
 
@@ -53,21 +47,11 @@ const NavBar = () => {
         }
     }
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return null;
-    }
-
-    const isDark = resolvedTheme === "dark";
-
     return (
         <div className="relative w-full bg-dll-surface text-dll-text shadow-md z-50 sticky top-0 backdrop-blur-md">
             <nav className="relative container mx-auto py-4 px-6 flex items-center justify-between gap-3">
                 <Link href="/" className="logo">
-                    <Image src={isDark ? LightLogo : Logo} alt="Digital Life Lessons" width={140} height={40} priority ></Image>
+                    <Image src={Logo} alt="Digital Life Lessons" width={140} height={40} priority ></Image>
                 </Link>
                 <div className={`z-[60] navitems absolute left-1/2 top-full w-screen -translate-x-1/2 flex flex-col items-start gap-3 bg-dll-surface px-6 py-4 shadow-lg transition-all duration-300 ease-in-out lg:static lg:w-auto lg:translate-x-0 lg:flex-row lg:items-center lg:gap-6 lg:bg-transparent lg:p-0 lg:shadow-none ${open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0 lg:visible lg:translate-y-0 lg:opacity-100"}`}>
                     {navItems.map((navItem, ind) => (
@@ -82,7 +66,6 @@ const NavBar = () => {
                     }
                 </div>
                 <div className='rightitems flex gap-3 items-center'>
-                    <ThemeSwitcher></ThemeSwitcher>
                     {user ? (
                         <div className='relative' onMouseEnter={() => setAvatarMenuOpen(true)} onMouseLeave={() => setAvatarMenuOpen(false)}>
                             <Avatar size="md">

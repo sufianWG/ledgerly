@@ -1,26 +1,16 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useTheme } from "next-themes";
 import { FaEnvelope, FaFacebook, FaHeart, FaInstagram, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import Logo from '@/assets/ledgerly-wt.png';
-import LightLogo from '@/assets/ledgerly-wt-light.png';
+import Logo from '@/assets/ledgerly-wt-light.png';
 
 const Footer = () => {
-    const { resolvedTheme } = useTheme();
-
-    if (!resolvedTheme) {
-        return null;
-    }
-    const isDark = resolvedTheme === "dark";
-
     return (
         <div className="bg-dll-surface text-dll-text border-t border-dll-border">
             <footer className="container mx-auto py-10 px-6 flex flex-col gap-8">
                 <div className="footerContent grid gap-8 md:grid-cols-2 lg:grid-cols-5">
                     <div className="lg:col-span-2">
-                        <Image src={isDark ? LightLogo : Logo} alt="Digital Life Lessons" width={150} height={42} ></Image>
+                        <Image src={Logo} alt="Digital Life Lessons" width={150} height={42} ></Image>
                         <p className="text-dll-muted text-sm mt-3 max-w-xs leading-relaxed">
                             A quiet space to preserve what life has taught you, and to learn from what it&apos;s taught others.
                         </p>
