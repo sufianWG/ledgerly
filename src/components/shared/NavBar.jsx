@@ -38,14 +38,12 @@ const NavBar = () => {
     const navItems = [
         { label: 'Home', path: '/' },
         { label: 'Public Lessons', path: '/public-lessons' },
+        { label: 'Add Lesson', path: '/dashboard/add-lesson' },
+        { label: 'My Lessons', path: '/dashboard/my-lessons' },
     ];
 
-    if (user) {
-        navItems.push({ label: 'Add Lesson', path: '/dashboard/add-lesson' });
-        navItems.push({ label: 'My Lessons', path: '/dashboard/my-lessons' });
-        if (!user.isPremium) {
-            navItems.push({ label: 'Pricing', path: '/pricing' });
-        }
+    if (user && !user.isPremium) {
+        navItems.push({ label: 'Pricing', path: '/pricing' });
     }
 
     return (
