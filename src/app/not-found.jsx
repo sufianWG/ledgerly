@@ -2,14 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
 import { FiHome } from "react-icons/fi";
 import Logo from "@/assets/ledgerly-wt.png";
 
 const NotFound = () => {
-
-    
     return (
         <div className="min-h-screen flex flex-col bg-dll-background">
             <div className="px-6 lg:px-10 py-7">

@@ -34,7 +34,7 @@ const PublicLessonsPage = () => {
             try {
                 const categoryParam = category === "All Categories" ? "" : category;
                 const toneParam = tone === "All Tones" ? "" : tone;
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons?search=${encodeURIComponent(search)}&category=${encodeURIComponent(categoryParam)}&tone=${encodeURIComponent(toneParam)}&sort=${sort}&page=${page}&limit=9`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons?search=${encodeURIComponent(search)}&category=${encodeURIComponent(categoryParam)}&tone=${encodeURIComponent(toneParam)}&sort=${sort}&page=${page}&limit=6`);
                 const result = await res.json();
                 // console.log("public lessons fetched:", result);
                 setLessons(result.lessons || []);
