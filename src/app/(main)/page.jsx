@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+
 const Home = () => {
   return (
     <div className="bg-dll-background min-h-[70vh] flex items-center justify-center px-6 py-24">
