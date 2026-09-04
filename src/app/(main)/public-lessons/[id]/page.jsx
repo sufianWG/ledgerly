@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { FiLock } from "react-icons/fi";
+import { FiLock, FiHeart } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
+import { showToast } from "@/lib/toast";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const LessonDetailsPage = () => {
     const { id } = useParams();
+    // console.log(id)
+    const { data: session } = authClient.useSession();
+    const user = session?.user;
     const [lesson, setLesson] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(true);
@@ -40,6 +44,35 @@ const LessonDetailsPage = () => {
         }
         fetchLesson();
     }, [id]);
+
+    const handleToggleLike = async () => {
+        // optimistic update - aage thekei UI change kore dei, tarpor server call kori
+        const alreadyLiked = lesson.likes?.includes(user?.email);
+        setLesson((prev) => ({
+            ...prev,
+            likes: alreadyLiked
+                ? prev.likes.filter((email) => email !== user?.email)
+                : [...(prev.likes || []), user?.email]
+        }));
+
+        try {
+            const { data: tokenData } = await authClient.token();
+            const token = tokenData?.token;
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons/${id}/like`, {
+                method: "PATCH",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const result = await res.json();
+            // console.log("like toggle result:", result);
+            if (!res.ok) {
+                showToast.error("Could not update like, please try again");
+            }
+        } catch (error) {
+            console.error("handleToggleLike error:", error);
+            showToast.error("Could not reach the server, please try again");
+        }
+    }
 
     if (loading) {
         return <LoadingSpinner></LoadingSpinner>;
@@ -132,6 +165,17 @@ const LessonDetailsPage = () => {
                             <p className="text-sm font-medium text-dll-heading">{lesson.readingTime} min read</p>
                         </div>
                     </div>
+                </div>
+
+                <div className="mt-8 flex items-center gap-3">
+                    <button
+                        onClick={handleToggleLike}
+                        className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border transition ${lesson.likes?.includes(user?.email) ? "bg-dll-error-bg border-dll-error text-dll-error" : "border-dll-border text-dll-muted hover:text-dll-text"}`}
+                    >
+                        <FiHeart size={16} className={lesson.likes?.includes(user?.email) ? "fill-current" : ""}></FiHeart>
+                        <span className="text-sm font-semibold">{lesson.likes?.length || 0}</span>
+                        <span className="text-xs">Likes</span>
+                    </button>
                 </div>
             </section>
         </div>
