@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
 import { showToast } from "@/lib/toast";
 import LessonCard from "@/components/LessonCard";
@@ -16,21 +16,29 @@ const PublicLessonsPage = () => {
     // console.log(user);
 
     const [lessons, setLessons] = useState([]);
+    const [pagination, setPagination] = useState(null);
     const [initialLoading, setInitialLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("All Categories");
     const [tone, setTone] = useState("All Tones");
     const [sort, setSort] = useState("newest");
+    const [page, setPage] = useState(1);
+
+    // search, category, tone, sort - jekono ekta change hole page 1 e ferot jabe
+    useEffect(() => {
+        setPage(1);
+    }, [search, category, tone, sort]);
 
     useEffect(() => {
         const fetchLessons = async () => {
             try {
                 const categoryParam = category === "All Categories" ? "" : category;
                 const toneParam = tone === "All Tones" ? "" : tone;
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons?search=${encodeURIComponent(search)}&category=${encodeURIComponent(categoryParam)}&tone=${encodeURIComponent(toneParam)}&sort=${sort}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons?search=${encodeURIComponent(search)}&category=${encodeURIComponent(categoryParam)}&tone=${encodeURIComponent(toneParam)}&sort=${sort}&page=${page}&limit=9`);
                 const result = await res.json();
                 // console.log("public lessons fetched:", result);
                 setLessons(result.lessons || []);
+                setPagination(result.pagination || null);
             } catch (error) {
                 console.error("fetchLessons error:", error);
                 showToast.error("Could not reach the server, please try again");
@@ -42,7 +50,7 @@ const PublicLessonsPage = () => {
         // typing er por 400ms wait kore search kore, protibar keystroke e na kore
         const debounceTimer = setTimeout(fetchLessons, 400);
         return () => clearTimeout(debounceTimer);
-    }, [search, category, tone, sort]);
+    }, [search, category, tone, sort, page]);
 
     if (initialLoading) {
         return <LoadingSpinner></LoadingSpinner>;
@@ -92,12 +100,48 @@ const PublicLessonsPage = () => {
                 <p className="text-sm text-dll-muted">No lessons published yet — be the first to share one.</p>
             }
 
+            {pagination && lessons.length > 0 &&
+                <p className="text-sm text-dll-muted mb-4">
+                    Showing <span className="font-semibold text-dll-heading">{(pagination.currentPage - 1) * pagination.limit + 1}–{(pagination.currentPage - 1) * pagination.limit + lessons.length}</span> of <span className="font-semibold text-dll-heading">{pagination.totalLessons}</span> lessons
+                </p>
+            }
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
                 {lessons.map((lesson) => {
                     const isLocked = lesson.accessLevel === "Premium" && !user?.isPremium && lesson.creatorEmail !== user?.email;
                     return <LessonCard key={lesson._id} lesson={lesson} isLocked={isLocked}></LessonCard>;
                 })}
             </div>
+
+            {pagination && pagination.totalPages > 1 &&
+                <div className="flex items-center justify-center gap-2 mt-12">
+                    <button
+                        onClick={() => setPage((p) => p - 1)}
+                        disabled={!pagination.previousPageStatus}
+                        className="w-9 h-9 rounded-lg border border-dll-border flex items-center justify-center text-dll-muted disabled:opacity-40 disabled:cursor-not-allowed hover:text-dll-text"
+                    >
+                        <FiChevronLeft size={16}></FiChevronLeft>
+                    </button>
+
+                    {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((pageNum) => (
+                        <button
+                            key={pageNum}
+                            onClick={() => setPage(pageNum)}
+                            className={`w-9 h-9 rounded-lg border text-sm font-semibold transition ${pageNum === pagination.currentPage ? "bg-dll-primary border-dll-primary text-white" : "border-dll-border text-dll-muted hover:text-dll-text"}`}
+                        >
+                            {pageNum}
+                        </button>
+                    ))}
+
+                    <button
+                        onClick={() => setPage((p) => p + 1)}
+                        disabled={!pagination.nextPageStatus}
+                        className="w-9 h-9 rounded-lg border border-dll-border flex items-center justify-center text-dll-muted disabled:opacity-40 disabled:cursor-not-allowed hover:text-dll-text"
+                    >
+                        <FiChevronRight size={16}></FiChevronRight>
+                    </button>
+                </div>
+            }
         </div>
     );
 };
