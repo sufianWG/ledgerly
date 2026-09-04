@@ -2,11 +2,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Avatar } from '@heroui/react';
 import { FaBars, FaXmark } from 'react-icons/fa6';
 import { HiSparkles } from 'react-icons/hi2';
+import { RxAvatar } from 'react-icons/rx';
 import Logo from '@/assets/ledgerly-wt-light.png';
 import NavLink from './NavLink';
 import AvatarMenu from './AvatarMenu';
@@ -20,6 +21,17 @@ const NavBar = () => {
     const router = useRouter();
     const user = session?.user;
     // console.log("user", user);
+    const avatarRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (avatarRef.current && !avatarRef.current.contains(e.target)) {
+                setAvatarMenuOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const handleSignIn = () => {
         router.push('/login');
@@ -27,6 +39,7 @@ const NavBar = () => {
 
     const handleSignOut = async () => {
         const { error } = await authClient.signOut();
+        // console.log("signOut error:", error);
         if (!error) {
             showToast.success("Logged out successfully");
             router.push('/login');
@@ -45,6 +58,7 @@ const NavBar = () => {
     if (user && !user.isPremium) {
         navItems.push({ label: 'Pricing', path: '/pricing' });
     }
+    // console.log("navItems", navItems);
 
     return (
         <div className="relative w-full bg-dll-surface text-dll-text shadow-md z-50 sticky top-0 backdrop-blur-md">
@@ -64,20 +78,8 @@ const NavBar = () => {
                         </span>
                     }
                 </div>
-                <div className='rightitems flex gap-3 items-center'>
-                    {user ? (
-                        <div className='relative' onMouseEnter={() => setAvatarMenuOpen(true)} onMouseLeave={() => setAvatarMenuOpen(false)}>
-                            <Avatar size="md">
-                                <Avatar.Image
-                                    src={user?.image}
-                                    alt={user?.name}
-                                    referrerPolicy="no-referrer"
-                                ></Avatar.Image>
-                                <Avatar.Fallback>{user?.name?.charAt(0)}</Avatar.Fallback>
-                            </Avatar>
-                            {avatarMenuOpen && <AvatarMenu user={user} handleSignIn={handleSignIn} handleSignOut={handleSignOut} ></AvatarMenu>}
-                        </div>
-                    ) : (
+                <div className='rightitems flex gap-2 sm:gap-3 items-center'>
+                    {!user &&
                         <div className="hidden sm:flex items-center gap-2">
                             <Link href="/login" className="px-4 py-2 text-sm font-medium text-dll-text hover:text-dll-primary transition">
                                 Log In
@@ -86,7 +88,31 @@ const NavBar = () => {
                                 Sign Up
                             </Link>
                         </div>
-                    )}
+                    }
+
+                    <div ref={avatarRef} className={`group relative ${!user ? "sm:hidden" : ""}`}>
+                        <button onClick={() => setAvatarMenuOpen((prev) => !prev)}>
+                            <Avatar size="md">
+                                {user ? (
+                                    <>
+                                        <Avatar.Image
+                                            src={user?.image}
+                                            alt={user?.name}
+                                            referrerPolicy="no-referrer"
+                                        ></Avatar.Image>
+                                        <Avatar.Fallback>{user?.name?.charAt(0)}</Avatar.Fallback>
+                                    </>
+                                ) : (
+                                    <Avatar.Fallback><RxAvatar size={22}></RxAvatar></Avatar.Fallback>
+                                )}
+                            </Avatar>
+                        </button>
+                        {/* mobile & tablet device gulote avatar menu open korar jonno click method & large device e hover effect */}
+                        <div className={`${avatarMenuOpen ? "" : "hidden"} lg:hidden lg:group-hover:block`}>
+                            <AvatarMenu user={user} handleSignIn={handleSignIn} handleSignOut={handleSignOut} ></AvatarMenu>
+                        </div>
+                    </div>
+
                     <button className="lg:hidden" onClick={() => setOpen(!open)}>
                         {open ? <FaXmark size={22} ></FaXmark> : <FaBars size={22} ></FaBars>}
                     </button>

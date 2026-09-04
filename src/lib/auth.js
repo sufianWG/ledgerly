@@ -3,7 +3,19 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { jwt } from "better-auth/plugins";
 
-const client = new MongoClient(process.env.MONGODB_URI);
+// reuse the same MongoClient across Next.js dev hot-reloads instead of opening
+// a fresh connection on every file edit (was causing "unable_to_create_user"
+// intermittently when two connections raced on the same write)
+let client;
+if (process.env.NODE_ENV === "development") {
+    if (!globalThis._mongoClient) {
+        globalThis._mongoClient = new MongoClient(process.env.MONGODB_URI);
+    }
+    client = globalThis._mongoClient;
+} else {
+    client = new MongoClient(process.env.MONGODB_URI);
+}
+
 const db = client.db(process.env.MONGO_DB);
 
 export const auth = betterAuth({

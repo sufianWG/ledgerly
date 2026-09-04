@@ -61,6 +61,7 @@ const Register = () => {
         });
         if (error) {
             showToast.error("Google sign in failed, please try again");
+            console.log("error of signup with google", error)
         }
     };
 
@@ -86,7 +87,7 @@ const Register = () => {
 
                         <Button
                             onPress={handleGoogleSignIn}
-                            className="w-full flex items-center justify-center gap-3 rounded-xl border border-dll-border py-3 mb-6 text-sm font-medium text-dll-text hover:bg-dll-surface-alt"
+                            className="w-full flex items-center justify-center gap-3 rounded-xl border border-dll-border py-3 mb-6 text-sm font-medium text-dll-text bg-dll-surface-alt hover:bg-dll-surface-elevated"
                         >
                             <FcGoogle size={18}></FcGoogle> Continue with Google
                         </Button>
