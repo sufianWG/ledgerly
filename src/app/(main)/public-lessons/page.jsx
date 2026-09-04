@@ -7,6 +7,8 @@ import { showToast } from "@/lib/toast";
 import LessonCard from "@/components/LessonCard";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
+const categories = ["All Categories", "Personal Growth", "Career", "Relationships", "Mindset", "Mistakes Learned"];
+
 const PublicLessonsPage = () => {
     const { data: session } = authClient.useSession();
     const user = session?.user;
@@ -15,11 +17,13 @@ const PublicLessonsPage = () => {
     const [lessons, setLessons] = useState([]);
     const [initialLoading, setInitialLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("All Categories");
 
     useEffect(() => {
         const fetchLessons = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons?search=${encodeURIComponent(search)}`);
+                const categoryParam = category === "All Categories" ? "" : category;
+                const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons?search=${encodeURIComponent(search)}&category=${encodeURIComponent(categoryParam)}`);
                 const result = await res.json();
                 // console.log("public lessons fetched:", result);
                 setLessons(result.lessons || []);
@@ -34,7 +38,7 @@ const PublicLessonsPage = () => {
         // typing er por 400ms wait kore search kore, protibar keystroke e na kore
         const debounceTimer = setTimeout(fetchLessons, 400);
         return () => clearTimeout(debounceTimer);
-    }, [search]);
+    }, [search, category]);
 
     if (initialLoading) {
         return <LoadingSpinner></LoadingSpinner>;
@@ -55,6 +59,18 @@ const PublicLessonsPage = () => {
                     placeholder="Search lessons by title or keyword..."
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-dll-border bg-transparent text-sm text-dll-text focus:outline-none focus:border-dll-accent"
                 ></input>
+            </div>
+
+            <div className="flex items-center gap-2.5 overflow-x-auto pb-1 mb-8">
+                {categories.map((c) => (
+                    <button
+                        key={c}
+                        onClick={() => setCategory(c)}
+                        className={`text-sm font-medium px-3.5 py-1.5 rounded-full border whitespace-nowrap transition ${category === c ? "bg-dll-primary border-dll-primary text-white" : "border-dll-border text-dll-muted hover:text-dll-text"}`}
+                    >
+                        {c}
+                    </button>
+                ))}
             </div>
 
             {lessons.length === 0 &&
