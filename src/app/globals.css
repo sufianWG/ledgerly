@@ -1,6 +1,21 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 
+.hero-slider{
+  --swiper-navigation-size: 28px;
+  --swiper-navigation-color: var(--primary);
+}
+.pagination-slider{
+  --swiper-navigation-size: 28px;
+  --swiper-navigation-color: var(--primary);
+}
+
+@media (min-width: 1024px){
+  .hero-slider{
+    --swiper-navigation-sides-offset: 40px;
+  }
+}
+
 :root {
   color-scheme: dark;
 
