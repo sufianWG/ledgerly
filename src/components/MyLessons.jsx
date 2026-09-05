@@ -128,7 +128,7 @@ const MyLessons = () => {
                     <p className="text-xs text-dll-muted">Dashboard</p>
                     <h1 className="font-serif text-xl font-semibold text-dll-heading">My Lessons</h1>
                 </div>
-                <Link href="/dashboard/add-lesson" className="hidden sm:inline-flex items-center gap-2 bg-dll-accent text-white px-4 py-2.5 rounded-full text-sm font-semibold">
+                <Link href="/dashboard/user/add-lesson" className="hidden sm:inline-flex items-center gap-2 bg-dll-accent text-white px-4 py-2.5 rounded-full text-sm font-semibold">
                     <FiPlus size={15}></FiPlus> Add Lesson
                 </Link>
             </div>
@@ -244,7 +244,7 @@ const MyLessons = () => {
                                             <Link href={`/public-lessons/${lesson._id}`} className="w-8 h-8 rounded-lg border border-dll-border flex items-center justify-center text-dll-muted hover:text-dll-text">
                                                 <FiEye size={14}></FiEye>
                                             </Link>
-                                            <Link href={`/dashboard/update-lesson/${lesson._id}`} className="w-8 h-8 rounded-lg border border-dll-border flex items-center justify-center text-dll-muted hover:text-dll-accent">
+                                            <Link href={`/dashboard/user/update-lesson/${lesson._id}`} className="w-8 h-8 rounded-lg border border-dll-border flex items-center justify-center text-dll-muted hover:text-dll-accent">
                                                 <FiEdit2 size={14}></FiEdit2>
                                             </Link>
                                             <button onClick={() => setDeleteTarget(lesson)} className="w-8 h-8 rounded-lg border border-dll-border flex items-center justify-center text-dll-muted hover:text-dll-error">

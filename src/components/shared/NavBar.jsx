@@ -51,11 +51,15 @@ const NavBar = () => {
     const navItems = [
         { label: 'Home', path: '/' },
         { label: 'Public Lessons', path: '/public-lessons' },
-        { label: 'Add Lesson', path: '/dashboard/add-lesson' },
-        { label: 'My Lessons', path: '/dashboard/my-lessons' },
     ];
 
-    if (user && !user.isPremium) {
+    // admin er role "user" dashboard route e dhukte parbe na, tai admin hole eigula navbar e dekhabe na
+    if (user?.role !== "admin") {
+        navItems.push({ label: 'Add Lesson', path: '/dashboard/user/add-lesson' });
+        navItems.push({ label: 'My Lessons', path: '/dashboard/user/my-lessons' });
+    }
+
+    if (user && !user.isPremium && user?.role !== "admin") {
         navItems.push({ label: 'Pricing', path: '/pricing' });
     }
     // console.log("navItems", navItems);

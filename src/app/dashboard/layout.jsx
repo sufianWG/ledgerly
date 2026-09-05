@@ -48,7 +48,7 @@ export default function DashboardLayout({ children }) {
                 <Link href="/" className="flex items-center gap-2.5 px-6 h-[76px] border-b border-dll-border shrink-0">
                     <Image src={Logo} alt="Digital Life Lessons" width={130} height={36}></Image>
                 </Link>
-                <DashboardSidebar onLinkClick={() => setSidebarOpen(false)}></DashboardSidebar>
+                <DashboardSidebar role={user?.role} onLinkClick={() => setSidebarOpen(false)}></DashboardSidebar>
             </aside>
 
             {sidebarOpen &&

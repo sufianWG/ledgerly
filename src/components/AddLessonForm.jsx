@@ -88,7 +88,7 @@ const AddLessonForm = () => {
 
             if (res.ok && result.success) {
                 showToast.success("Lesson published successfully");
-                router.push("/dashboard/my-lessons");
+                router.push("/dashboard/user/my-lessons");
             } else {
                 showToast.error(result.message || "Failed to publish lesson");
             }

@@ -2,35 +2,61 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiGrid, FiPlusCircle, FiBookOpen, FiHeart, FiUser, FiCreditCard } from "react-icons/fi";
+import { FiGrid, FiPlusCircle, FiBookOpen, FiHeart, FiUser, FiCreditCard, FiUsers, FiFlag } from "react-icons/fi";
 
-const sidebarSections = [
+const userSections = [
     {
         label: "Overview",
         links: [
-            { label: "Dashboard Home", path: "/dashboard", icon: FiGrid },
+            { label: "Dashboard Home", path: "/dashboard/user", icon: FiGrid },
         ]
     },
     {
         label: "My Lessons",
         links: [
-            { label: "Add Lesson", path: "/dashboard/add-lesson", icon: FiPlusCircle },
-            { label: "My Lessons", path: "/dashboard/my-lessons", icon: FiBookOpen },
-            { label: "My Favorites", path: "/dashboard/my-favorites", icon: FiHeart },
+            { label: "Add Lesson", path: "/dashboard/user/add-lesson", icon: FiPlusCircle },
+            { label: "My Lessons", path: "/dashboard/user/my-lessons", icon: FiBookOpen },
+            { label: "My Favorites", path: "/dashboard/user/my-favorites", icon: FiHeart },
         ]
     },
     {
         label: "Account",
         links: [
-            { label: "Profile", path: "/dashboard/profile", icon: FiUser },
+            { label: "Profile", path: "/dashboard/user/profile", icon: FiUser },
             { label: "Pricing / Upgrade", path: "/pricing", icon: FiCreditCard },
         ]
     }
 ];
 
-const DashboardSidebar = ({ onLinkClick }) => {
+// admin er route link user er theke completely alada, tai role onujayi alada section map
+const adminSections = [
+    {
+        label: "Overview",
+        links: [
+            { label: "Dashboard Home", path: "/dashboard/admin", icon: FiGrid },
+        ]
+    },
+    {
+        label: "Manage",
+        links: [
+            { label: "Manage Users", path: "/dashboard/admin/users", icon: FiUsers },
+            { label: "Manage Lessons", path: "/dashboard/admin/lessons", icon: FiBookOpen },
+            { label: "Reported Lessons", path: "/dashboard/admin/reported-lessons", icon: FiFlag },
+        ]
+    },
+    {
+        label: "Account",
+        links: [
+            { label: "Profile", path: "/dashboard/admin/profile", icon: FiUser },
+        ]
+    }
+];
+
+const DashboardSidebar = ({ role, onLinkClick }) => {
     const pathname = usePathname();
-    // console.log("current pathname:", pathname);
+    // console.log("sidebar role:", role, "pathname:", pathname);
+
+    const sidebarSections = role === "admin" ? adminSections : userSections;
 
     return (
         <nav className="flex-1 px-4 py-6 space-y-5 overflow-y-auto">
