@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { FiLock, FiHeart } from "react-icons/fi";
+import { FiLock, FiHeart, FiBookmark } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
 import { showToast } from "@/lib/toast";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
@@ -70,6 +70,32 @@ const LessonDetailsPage = () => {
             }
         } catch (error) {
             console.error("handleToggleLike error:", error);
+            showToast.error("Could not reach the server, please try again");
+        }
+    }
+
+    const handleToggleFavorite = async () => {
+        // ekhane like er moto optimistic update na kore, server theke reply asha porjonto wait kori
+        // karon isFavorited ekta simple true/false state, ei choto feature e eto tara-tari hote hobe na
+        try {
+            const { data: tokenData } = await authClient.token();
+            const token = tokenData?.token;
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons/${id}/favorite`, {
+                method: "PATCH",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const result = await res.json();
+            // console.log("favorite toggle result:", result);
+
+            if (res.ok && result.success) {
+                setLesson((prev) => ({ ...prev, isFavorited: result.favorited }));
+                showToast.success(result.favorited ? "Saved to your favorites" : "Removed from favorites");
+            } else {
+                showToast.error("Could not update favorites, please try again");
+            }
+        } catch (error) {
+            console.error("handleToggleFavorite error:", error);
             showToast.error("Could not reach the server, please try again");
         }
     }
@@ -175,6 +201,14 @@ const LessonDetailsPage = () => {
                         <FiHeart size={16} className={lesson.likes?.includes(user?.email) ? "fill-current" : ""}></FiHeart>
                         <span className="text-sm font-semibold">{lesson.likes?.length || 0}</span>
                         <span className="text-xs">Likes</span>
+                    </button>
+
+                    <button
+                        onClick={handleToggleFavorite}
+                        className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border transition ${lesson.isFavorited ? "bg-dll-warning-bg border-dll-warning text-dll-warning" : "border-dll-border text-dll-muted hover:text-dll-text"}`}
+                    >
+                        <FiBookmark size={16} className={lesson.isFavorited ? "fill-current" : ""}></FiBookmark>
+                        <span className="text-sm font-semibold">{lesson.isFavorited ? "Saved" : "Save"}</span>
                     </button>
                 </div>
             </section>
