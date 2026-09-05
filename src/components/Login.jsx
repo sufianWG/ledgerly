@@ -12,7 +12,7 @@ import { FcGoogle } from "react-icons/fc";
 import { authClient } from "@/lib/auth-client";
 import { showToast } from "@/lib/toast";
 
-const Login = () => {
+const Login = ({ redirectTo = "/" }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
@@ -27,7 +27,7 @@ const Login = () => {
         const { error } = await authClient.signIn.email({
             email,
             password,
-            callbackURL: "/",
+            callbackURL: redirectTo,
             rememberMe: true
         });
         setIsSubmitting(false);
@@ -36,14 +36,14 @@ const Login = () => {
             showToast.error(error.message || "Login failed, please check your credentials");
         } else {
             showToast.success("Logged in successfully");
-            router.push("/");
+            router.push(redirectTo);
         }
     };
 
     const handleGoogleSignIn = async () => {
         const { error } = await authClient.signIn.social({
             provider: "google",
-            callbackURL: "/"
+            callbackURL: redirectTo
         });
         if (error) {
             showToast.error("Google sign in failed, please try again");
@@ -141,7 +141,7 @@ const Login = () => {
 
                         <p className="text-center text-sm text-dll-muted mt-8">
                             Don&apos;t have an account?{" "}
-                            <Link href="/register" className="text-dll-accent font-semibold hover:underline">Create one free</Link>
+                            <Link href={`/register?redirect=${encodeURIComponent(redirectTo)}`} className="text-dll-accent font-semibold hover:underline">Create one free</Link>
                         </p>
                     </div>
                 </section>

@@ -25,7 +25,7 @@ const validatePassword = (value) => {
     return null;
 };
 
-const Register = () => {
+const Register = ({ redirectTo = "/" }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
@@ -42,7 +42,7 @@ const Register = () => {
             email,
             password,
             image: photoURL || undefined,
-            callbackURL: "/"
+            callbackURL: redirectTo
         });
         setIsSubmitting(false);
 
@@ -50,14 +50,15 @@ const Register = () => {
             showToast.error(error.message || "Registration failed, please try again");
         } else {
             showToast.success("Account created successfully");
-            router.push("/");
+            // email/password diye register korle abar login page e pathacchi, google diye korle direct redirectTo te
+            router.push(`/login?redirect=${encodeURIComponent(redirectTo)}`);
         }
     };
 
     const handleGoogleSignIn = async () => {
         const { error } = await authClient.signIn.social({
             provider: "google",
-            callbackURL: "/"
+            callbackURL: redirectTo
         });
         if (error) {
             showToast.error("Google sign in failed, please try again");
@@ -169,7 +170,7 @@ const Register = () => {
 
                         <p className="text-center text-sm text-dll-muted mt-8">
                             Already have an account?{" "}
-                            <Link href="/login" className="text-dll-accent font-semibold hover:underline">Log in</Link>
+                            <Link href={`/login?redirect=${encodeURIComponent(redirectTo)}`} className="text-dll-accent font-semibold hover:underline">Log in</Link>
                         </p>
                     </div>
                 </section>

@@ -10,7 +10,7 @@ export async function POST() {
 
         const user = await getUserSession();
         if (!user) {
-            return NextResponse.redirect(`${origin}/login`, 303);
+            return NextResponse.redirect(`${origin}/login?redirect=/pricing`, 303);
         }
 
         const session = await stripe.checkout.sessions.create({

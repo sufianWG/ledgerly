@@ -51,6 +51,7 @@ const NavBar = () => {
     const navItems = [
         { label: 'Home', path: '/' },
         { label: 'Public Lessons', path: '/public-lessons' },
+        { label: 'Pricing', path: '/pricing' }
     ];
 
     // admin er role "user" dashboard route e dhukte parbe na, tai admin hole eigula navbar e dekhabe na
