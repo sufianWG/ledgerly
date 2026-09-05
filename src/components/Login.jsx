@@ -72,7 +72,7 @@ const Login = ({ redirectTo = "/" }) => {
 
                         <Button
                             onPress={handleGoogleSignIn}
-                            className="w-full flex items-center justify-center gap-3 rounded-xl border border-dll-border py-3 mb-6 text-sm font-medium text-dll-text hover:bg-dll-surface-alt"
+                            className="w-full flex items-center justify-center gap-3 rounded-xl border border-dll-border py-3 mb-6 text-sm font-medium text-dll-text bg-dll-surface-alt hover:bg-dll-surface-elevated"
                         >
                             <FcGoogle size={18}></FcGoogle> Continue with Google
                         </Button>
@@ -117,7 +117,7 @@ const Login = ({ redirectTo = "/" }) => {
                                 <Label className="text-sm font-medium text-dll-text">Password</Label>
                                 <div className="relative">
                                     <CiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none"></CiLock>
-                                    <Input placeholder="••••••••" className="rounded-xl border border-dll-border bg-transparent pl-11 pr-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent"></Input>
+                                    <Input placeholder="Input your passowrd" className="rounded-xl border border-dll-border bg-transparent pl-11 pr-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent"></Input>
                                     <Button
                                         isIconOnly
                                         aria-label={isVisible ? "Hide password" : "Show password"}
