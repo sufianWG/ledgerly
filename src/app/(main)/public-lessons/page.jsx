@@ -108,7 +108,8 @@ const PublicLessonsPage = () => {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
                 {lessons.map((lesson) => {
-                    const isLocked = lesson.accessLevel === "Premium" && !user?.isPremium && lesson.creatorEmail !== user?.email;
+                    // admin er jonno kono lock nai, shob kichu admin dekhte parbe
+                    const isLocked = lesson.accessLevel === "Premium" && !user?.isPremium && lesson.creatorEmail !== user?.email && user?.role !== "admin";
                     return <LessonCard key={lesson._id} lesson={lesson} isLocked={isLocked}></LessonCard>;
                 })}
             </div>
