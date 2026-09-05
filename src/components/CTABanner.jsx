@@ -1,9 +1,18 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 
 const CTABanner = () => {
     return (
         <div className="px-6 lg:px-10 pb-20 pt-4 bg-dll-surface-alt">
-            <div className="max-w-5xl mx-auto bg-gradient-to-br from-dll-primary via-dll-primary to-dll-secondary rounded-[32px] px-8 py-16 lg:py-20 text-center relative overflow-hidden">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="max-w-5xl mx-auto bg-gradient-to-br from-dll-primary via-dll-primary to-dll-secondary rounded-[32px] px-8 py-16 lg:py-20 text-center relative overflow-hidden"
+            >
                 <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full bg-dll-accent/25 blur-3xl"></div>
                 <div className="absolute -bottom-16 -right-16 w-64 h-64 rounded-full bg-white/10 blur-3xl"></div>
                 <div className="relative">
@@ -17,7 +26,7 @@ const CTABanner = () => {
                         Create Your First Lesson
                     </Link>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };
