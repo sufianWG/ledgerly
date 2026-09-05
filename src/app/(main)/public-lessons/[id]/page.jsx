@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { FiLock, FiHeart, FiBookmark } from "react-icons/fi";
+import { Button, Modal } from "@heroui/react";
+import { FiLock, FiHeart, FiBookmark, FiFlag } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
 import { showToast } from "@/lib/toast";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
@@ -17,6 +18,10 @@ const LessonDetailsPage = () => {
     const [lesson, setLesson] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(true);
+    const [showReportModal, setShowReportModal] = useState(false);
+    const [reportReason, setReportReason] = useState("Spam");
+    const [reportDetails, setReportDetails] = useState("");
+    const [isReporting, setIsReporting] = useState(false);
 
     useEffect(() => {
         const fetchLesson = async () => {
@@ -69,7 +74,7 @@ const LessonDetailsPage = () => {
                 showToast.error("Could not update like, please try again");
             }
         } catch (error) {
-            console.error("handleToggleLike error:", error);
+            // console.error("handleToggleLike error:", error);
             showToast.error("Could not reach the server, please try again");
         }
     }
@@ -98,6 +103,37 @@ const LessonDetailsPage = () => {
             console.error("handleToggleFavorite error:", error);
             showToast.error("Could not reach the server, please try again");
         }
+    }
+
+    const handleReportSubmit = async () => {
+        setIsReporting(true);
+        try {
+            const { data: tokenData } = await authClient.token();
+            const token = tokenData?.token;
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lessons/${id}/report`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ reason: reportReason, details: reportDetails })
+            });
+            const result = await res.json();
+            // console.log("report submit result:", result);
+
+            if (res.ok && result.success) {
+                showToast.success(result.message);
+                setShowReportModal(false);
+                setReportDetails("");
+            } else {
+                showToast.error(result.message || "Could not submit the report");
+            }
+        } catch (error) {
+            // console.error("handleReportSubmit error:", error);
+            showToast.error("Could not reach the server, please try again");
+        }
+        setIsReporting(false);
     }
 
     if (loading) {
@@ -210,8 +246,61 @@ const LessonDetailsPage = () => {
                         <FiBookmark size={16} className={lesson.isFavorited ? "fill-current" : ""}></FiBookmark>
                         <span className="text-sm font-semibold">{lesson.isFavorited ? "Saved" : "Save"}</span>
                     </button>
+
+                    {user?.email !== lesson.creatorEmail &&
+                        <button
+                            onClick={() => setShowReportModal(true)}
+                            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-dll-border text-dll-muted hover:text-dll-error transition ml-auto"
+                        >
+                            <FiFlag size={16}></FiFlag>
+                            <span className="text-xs">Report</span>
+                        </button>
+                    }
                 </div>
             </section>
+
+            <Modal isOpen={showReportModal} onOpenChange={setShowReportModal}>
+                <Modal.Backdrop>
+                    <Modal.Container size="sm" className={"shadow"}>
+                        <Modal.Dialog className="bg-dll-background shadow rounded-md">
+                            <Modal.Header>
+                                <Modal.Heading className="text-dll-accent">Report this lesson</Modal.Heading>
+                                <Modal.CloseTrigger></Modal.CloseTrigger>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <p className="text-sm text-dll-muted mb-5">Tell us what&apos;s wrong, our team will review it.</p>
+
+                                <label className="text-xs font-medium text-dll-text mb-1 block">Reason</label>
+                                <select
+                                    value={reportReason}
+                                    onChange={(e) => setReportReason(e.target.value)}
+                                    className="w-full rounded-xl border border-dll-border bg-transparent px-3 py-2 text-sm text-dll-text mb-4"
+                                >
+                                    <option value="Spam">Spam</option>
+                                    <option value="Inappropriate Content">Inappropriate Content</option>
+                                    <option value="Misleading Information">Misleading Information</option>
+                                    <option value="Other">Other</option>
+                                </select>
+
+                                <label className="text-xs font-medium text-dll-text mb-1 block">Details (optional)</label>
+                                <textarea
+                                    value={reportDetails}
+                                    onChange={(e) => setReportDetails(e.target.value)}
+                                    rows={3}
+                                    placeholder="Add any extra context..."
+                                    className="w-full rounded-xl border border-dll-border bg-transparent px-3 py-2 text-sm text-dll-text resize-none"
+                                ></textarea>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button onPress={() => setShowReportModal(false)} className="flex-1 rounded-xl py-2.5 text-sm font-semibold border border-dll-border text-dll-text bg-dll-primary text-dll-surface">Cancel</Button>
+                                <Button onPress={handleReportSubmit} isDisabled={isReporting} className="flex-1 rounded-xl py-2.5 text-sm font-semibold text-white bg-dll-error disabled:opacity-60">
+                                    {isReporting ? "Submitting..." : "Submit Report"}
+                                </Button>
+                            </Modal.Footer>
+                        </Modal.Dialog>
+                    </Modal.Container>
+                </Modal.Backdrop>
+            </Modal>
         </div>
     );
 };
