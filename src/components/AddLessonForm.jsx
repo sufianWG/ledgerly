@@ -84,7 +84,7 @@ const AddLessonForm = () => {
                 })
             });
             const result = await res.json();
-            console.log("create lesson result:", result);
+            // console.log("create lesson result:", result);
 
             if (res.ok && result.success) {
                 showToast.success("Lesson published successfully");

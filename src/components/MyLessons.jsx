@@ -102,7 +102,7 @@ const MyLessons = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const result = await res.json();
-            console.log("delete lesson result:", result);
+            // console.log("delete lesson result:", result);
 
             if (res.ok && result.success) {
                 showToast.success("Lesson deleted");

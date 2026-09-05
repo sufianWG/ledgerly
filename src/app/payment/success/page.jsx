@@ -27,7 +27,7 @@ const PaymentSuccessPage = async ({ searchParams }) => {
     if (checkoutSession.status === "complete") {
         try {
             const result = await upgradeToPremium();
-            console.log("upgradeToPremium result:", result);
+            // console.log("upgradeToPremium result:", result);
         } catch (error) {
             // ledgerly-server jokhon chalu thakbe na, tokhon account upgrade e somoshsha hote pare, seta handle korar jonno
             console.error("upgradeToPremium error:", error);

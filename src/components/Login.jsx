@@ -21,7 +21,7 @@ const Login = ({ redirectTo = "/" }) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const { email, password } = Object.fromEntries(formData.entries());
-        console.log("logging in:", email);
+        // console.log("logging in:", email);
 
         setIsSubmitting(true);
         const { error } = await authClient.signIn.email({

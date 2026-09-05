@@ -51,7 +51,7 @@ const ManageUsers = () => {
                 body: JSON.stringify({ isPremium })
             });
             const result = await res.json();
-            console.log("result", result)
+            // console.log("result", result)
 
             if (res.ok && result.success) {
                 showToast.success(result.message);

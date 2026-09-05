@@ -34,7 +34,7 @@ const Register = ({ redirectTo = "/" }) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const { name, email, photoURL, password } = Object.fromEntries(formData.entries());
-        console.log("registering user:", email);
+        // console.log("registering user:", email);
 
         setIsSubmitting(true);
         const { error } = await authClient.signUp.email({
@@ -62,7 +62,7 @@ const Register = ({ redirectTo = "/" }) => {
         });
         if (error) {
             showToast.error("Google sign in failed, please try again");
-            console.log("error of signup with google", error)
+            // console.log("error of signup with google", error)
         }
     };
 
