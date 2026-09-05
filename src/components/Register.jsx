@@ -148,6 +148,8 @@ const Register = ({ redirectTo = "/" }) => {
                                     <Input placeholder="Create a password" className="rounded-xl border border-dll-border bg-transparent pl-11 pr-11 py-2.5 w-full text-dll-text focus:outline-none focus:border-dll-accent"></Input>
                                     <Button
                                         isIconOnly
+                                        size="sm"
+                                        variant="ghost"
                                         aria-label={isVisible ? "Hide password" : "Show password"}
                                         onPress={() => setIsVisible(!isVisible)}
                                         className="absolute right-2 top-1/2 -translate-y-1/2 text-dll-muted"

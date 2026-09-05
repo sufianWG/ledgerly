@@ -163,7 +163,17 @@ const AdminProfile = () => {
                             <Label className="text-xs font-medium text-dll-text mb-1 block">Current Password</Label>
                             <div className="relative">
                                 <CiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none"></CiLock>
-                                <Input placeholder="••••••••" className="w-full rounded-xl border border-dll-border bg-transparent pl-10 pr-3 py-2 text-sm text-dll-text focus:outline-none focus:border-dll-accent"></Input>
+                                <Input placeholder="••••••••" className="w-full rounded-xl border border-dll-border bg-transparent pl-10 pr-11 py-2 text-sm text-dll-text focus:outline-none focus:border-dll-accent"></Input>
+                                <Button
+                                    isIconOnly
+                                    size="sm"
+                                    variant="ghost"
+                                    aria-label={isVisible ? "Hide password" : "Show password"}
+                                    onPress={() => setIsVisible(!isVisible)}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-dll-muted"
+                                >
+                                    {isVisible ? <FaEye size={16}></FaEye> : <IoMdEyeOff size={16}></IoMdEyeOff>}
+                                </Button>
                             </div>
                             <FieldError className="text-xs text-dll-error"></FieldError>
                         </TextField>
@@ -176,6 +186,8 @@ const AdminProfile = () => {
                             <Input placeholder="Create a new password" className="w-full rounded-xl border border-dll-border bg-transparent pl-10 pr-11 py-2 text-sm text-dll-text focus:outline-none focus:border-dll-accent"></Input>
                             <Button
                                 isIconOnly
+                                size="sm"
+                                variant="ghost"
                                 aria-label={isVisible ? "Hide password" : "Show password"}
                                 onPress={() => setIsVisible(!isVisible)}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 text-dll-muted"
@@ -191,7 +203,17 @@ const AdminProfile = () => {
                         <Label className="text-xs font-medium text-dll-text mb-1 block">Confirm New Password</Label>
                         <div className="relative">
                             <CiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-dll-muted pointer-events-none"></CiLock>
-                            <Input placeholder="Re-type new password" className="w-full rounded-xl border border-dll-border bg-transparent pl-10 py-2 text-sm text-dll-text focus:outline-none focus:border-dll-accent"></Input>
+                            <Input placeholder="Re-type new password" className="w-full rounded-xl border border-dll-border bg-transparent pl-10 pr-11 py-2 text-sm text-dll-text focus:outline-none focus:border-dll-accent"></Input>
+                            <Button
+                                isIconOnly
+                                size="sm"
+                                variant="ghost"
+                                aria-label={isVisible ? "Hide password" : "Show password"}
+                                onPress={() => setIsVisible(!isVisible)}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-dll-muted"
+                            >
+                                {isVisible ? <FaEye size={16}></FaEye> : <IoMdEyeOff size={16}></IoMdEyeOff>}
+                            </Button>
                         </div>
                         <FieldError className="text-xs text-dll-error"></FieldError>
                     </TextField>
